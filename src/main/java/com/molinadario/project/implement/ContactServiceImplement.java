@@ -83,4 +83,20 @@ public class ContactServiceImplement implements ContactService {
 		return contactDto;
 	}
 
+	@Override
+	public ContactDTO updateContact(long idContact) {
+
+		LOG.info("METHOD updateContact --PARAM: " + idContact);
+
+		Contact updateContact = contactRepository.findById(idContact);
+
+		if (updateContact != null) {
+
+			return converteContact.contactToContactDto(contactRepository.save(updateContact));
+
+		}
+
+		return null;
+	}
+
 }

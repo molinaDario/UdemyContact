@@ -21,6 +21,7 @@ public class ConverterContact {
 			
 			contact = new Contact();
             
+			contact.setId(contactDto.getId());
 			contact.setFirstName(contactDto.getFirstName());
 			contact.setLastName(contactDto.getLastName());
 			contact.setTelephone(contactDto.getTelephone());

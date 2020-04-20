@@ -27,11 +27,21 @@ public class ContactsController {
 	private ContactService contactService;
 
 	@GetMapping(path = "/addForm")
-	public String addForm(Model model) {
+	public String addForm(@RequestParam(name = "id", required = false) Long id, Model model) {
 
 		LOG.info("METHOD: addForm");
 
-		model.addAttribute("newContact", new ContactDTO());
+		long idContact = 0;
+
+		if (id != null) {
+			idContact = id.longValue();
+
+			model.addAttribute("newContact", contactService.findContactId(idContact));
+
+		} else {
+
+			model.addAttribute("newContact", new ContactDTO());
+		}
 
 		return ManagerView.CONTACT_FORM;
 	}
@@ -50,10 +60,15 @@ public class ContactsController {
 		LOG.info("METHOD: addContact PARAMETER: " + contactDto.toString());
 
 		if (contactService.newContact(contactDto) != null) {
+			
 			model.addAttribute("result", 1);
+			
 			return "redirect:/contact/showAllContacts";
+			
 		} else {
+			
 			model.addAttribute("result", 0);
+			
 			return ManagerView.CONTACT_FORM;
 		}
 
