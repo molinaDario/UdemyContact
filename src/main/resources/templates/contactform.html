@@ -21,8 +21,6 @@
 			<br/>
 			<form action="#" th:action="@{/contact/addContact}" method="post" th:object="${newContact}">
 			
-			    <input type="hidden" th:field="*{id}">
-			
 				First Name: <input type="text" class="form-control" th:field="*{firstName}" th:value="*{firstName}"></input>
 				<br/>
 				Last Name: <input type="text" class="form-control" th:field="*{lastName}" th:value="*{lastName}"></input>

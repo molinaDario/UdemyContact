@@ -21,6 +21,8 @@ import com.molinadario.project.view.ManagerView;
 public class ContactsController {
 
 	private static final Log LOG = LogFactory.getLog(ContactsController.class);
+	
+	private long idContact = 0;
 
 	@Autowired
 	@Qualifier("contactServiceImplement")
@@ -30,8 +32,6 @@ public class ContactsController {
 	public String addForm(@RequestParam(name = "id", required = false) Long id, Model model) {
 
 		LOG.info("METHOD: addForm");
-
-		long idContact = 0;
 
 		if (id != null) {
 			idContact = id.longValue();
@@ -58,7 +58,11 @@ public class ContactsController {
 	public String addContact(@ModelAttribute(name = "newContact") ContactDTO contactDto, Model model) {
 
 		LOG.info("METHOD: addContact PARAMETER: " + contactDto.toString());
-
+		
+		if(idContact!=0) {
+			contactDto.setId(idContact);
+		}
+       
 		if (contactService.newContact(contactDto) != null) {
 			
 			model.addAttribute("result", 1);
