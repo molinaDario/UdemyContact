@@ -17,18 +17,20 @@
   <body>
 
     <div class="container">
+    
+    <p>Login Security</p>
 
-      <form class="form-signin" action="#" th:action="@{/logginCheck}" th:object="${userCredential}" method="post">
+      <form class="form-signin" action="#" th:action="@{/loggi}"  method="post">
       
         <h2 class="form-signin-heading">Sign in</h2>
         
         <label for="inputEmail" class="sr-only">Username</label>
         
-        <input type="text" id="inputUsername" class="form-control" placeholder="Username" th:field="*{user}"/>
+        <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username"/>
         
         <label for="inputPassword" class="sr-only">Password</label>
         
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password"  th:field="*{pass}"/>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password"  name="password"/>
         
         <div th:if="${error!=null}" class="alert alert-danger" role="alert">
           invalid user name or password
