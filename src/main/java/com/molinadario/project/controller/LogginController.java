@@ -16,22 +16,35 @@ public class LogginController {
 
 	private static final Log LOG = LogFactory.getLog(LogginController.class);
 
-	@GetMapping(path = { "/loggin", "/" })
+	@GetMapping(path = "/")
+	public String redirectToLoggin() {
+		LOG.info("METHOD: redirectToLoggin");
+
+		return "redirect:/loggin";
+	}
+
+	@GetMapping(path = "/loggin")
 	public String showLogginForm(@RequestParam(name = "error", required = false) String error,
 			@RequestParam(name = "logout", required = false) String logout, Model model) {
 
 		LOG.info("METHOD: showLogginForm Parameter: Error: " + error + " , Logout: " + logout);
 
+		model.addAttribute("userCredential", new UserCredential());
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
 
 		return ManagerView.LOGIN;
 	}
 
-	@PostMapping(path = "/menu")
-	public String logginCheck() {
+	@PostMapping(path = "/logginCheck")
+	public String logginCheck(@ModelAttribute(name = "userCredential") UserCredential userCredential) {
 
-		LOG.info("METHOD: logginCheck()");
-		return "redirect:/contact/showAllContacts";
+		LOG.info("METHOD: logginCheck Paremeter: userCredential " + userCredential);
+
+		if (userCredential.getUser().equalsIgnoreCase("root") && userCredential.getPass().equalsIgnoreCase("root")) {
+			return "redirect:/contact/showAllContacts";
+		} else {
+			return "redirect:/loggin?error";
+		}
 	}
 }
