@@ -14,39 +14,33 @@
 
   </head>
 
-  <body>
-
-    <div class="container">
-
-      <form class="form-signin" action="#" th:action="@{/logginCheck}" th:object="${userCredential}" method="post">
-      
-        <h2 class="form-signin-heading">Sign in</h2>
-        
-        <label for="inputEmail" class="sr-only">Username</label>
-        
-        <input type="text" id="inputUsername" class="form-control" placeholder="Username" th:field="*{user}"/>
-        
-        <label for="inputPassword" class="sr-only">Password</label>
-        
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password"  th:field="*{pass}"/>
-        
-        <div th:if="${error!=null}" class="alert alert-danger" role="alert">
-          invalid user name or password
+<body>
+    <div class="modal-dialog text-center">
+        <div class="col-sm-8 main-section">
+            <div class="modal-content">
+                <div class="col-12 user-img">
+                </div>
+                <form class="col-12" th:action="@{/login}" method="post">
+                    <div class="form-group" id="user-group">
+                        <input type="text" class="form-control" placeholder="Nombre de usuario" name="username"/>
+                    </div>
+                    <div class="form-group" id="contrasena-group">
+                        <input type="password" class="form-control" placeholder="Contrasena" name="password"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i>  Ingresar </button>
+                </form>
+                <div class="col-12 forgot">
+                    <p><a href="#">Recordar contrasena?</a></p>
+                    <p><a href="#" th:href="@{/signup}">Crear Usuario - Registrarse</a>
+                </div>
+                <div th:if="${param.error}" class="alert alert-danger" role="alert">
+		            Invalid username and password.
+		        </div>
+		        <div th:if="${param.logout}" class="alert alert-success" role="alert">
+		            You have been logged out.
+		        </div>
+            </div>
         </div>
-        
-        <div th:if="${logout!=null}" class="alert alert-info" role="alert">
-          Logout sucecesfully!
-        </div>
-        
-        <button class="btn btn-lg btn-primary btn-block" type="submit">
-        
-        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Sign in
-        
-        </button>
-        
-      </form>
-
-    </div> <!-- /container -->
-
+    </div>
 </body>
 </html>
