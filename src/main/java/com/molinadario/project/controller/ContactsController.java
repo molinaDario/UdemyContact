@@ -4,6 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,7 @@ import com.molinadario.project.view.ManagerView;
 public class ContactsController {
 
 	private static final Log LOG = LogFactory.getLog(ContactsController.class);
-	
+
 	private long idContact = 0;
 
 	@Autowired
@@ -58,21 +60,21 @@ public class ContactsController {
 	public String addContact(@ModelAttribute(name = "newContact") ContactDTO contactDto, Model model) {
 
 		LOG.info("METHOD: addContact PARAMETER: " + contactDto.toString());
-		
-		if(idContact!=0) {
+
+		if (idContact != 0) {
 			contactDto.setId(idContact);
 		}
-       
+
 		if (contactService.newContact(contactDto) != null) {
-			
+
 			model.addAttribute("result", 1);
-			
+
 			return "redirect:/contact/showAllContacts";
-			
+
 		} else {
-			
+
 			model.addAttribute("result", 0);
-			
+
 			return ManagerView.CONTACT_FORM;
 		}
 
@@ -84,6 +86,11 @@ public class ContactsController {
 		LOG.info("METHOD showAllContacts");
 
 		ModelAndView modelAndView = new ModelAndView();
+
+		Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+		String username = loggedInUser.getName();
+
+		modelAndView.addObject("userName", username);
 
 		modelAndView.addObject("allContact", contactService.showAllContact());
 
